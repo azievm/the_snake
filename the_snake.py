@@ -55,21 +55,15 @@ class GameObject:
         """
         pass
 
-    def draw_cell(self, position, color=None):
+    def draw_cell(self, position, color):
         """Отрисовывает ячейки на игровой поверхности"""
-        if color:
-            rect = pg.Rect(
-                (position[0], position[1]),
-                (GRID_SIZE, GRID_SIZE)
-            )
-            pg.draw.rect(screen, BOARD_BACKGROUND_COLOR, rect)
+        rect = pg.Rect(
+            (position),
+            (GRID_SIZE, GRID_SIZE)
+        )
+        pg.draw.rect(screen, color, rect)
 
-        else:
-            rect = pg.Rect(
-                (position[0], position[1]),
-                (GRID_SIZE, GRID_SIZE)
-            )
-            pg.draw.rect(screen, self.body_color, rect)
+        if color != BOARD_BACKGROUND_COLOR:
             pg.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
@@ -90,7 +84,7 @@ class Apple(GameObject):
 
     def draw(self):
         """Отрисовывает яблоко на игровой поверхности"""
-        self.draw_cell(self.position)
+        self.draw_cell(self.position, self.body_color)
 
 
 class Snake(GameObject):
@@ -143,7 +137,7 @@ class Snake(GameObject):
 
     def draw(self):
         """Отрисовывает змейку и затирает последний сегмент"""
-        self.draw_cell(self.get_head_position())
+        self.draw_cell(self.get_head_position(), self.body_color)
         if self.last:
             self.draw_cell(self.last, BOARD_BACKGROUND_COLOR)
 
